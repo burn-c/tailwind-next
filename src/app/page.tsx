@@ -6,7 +6,7 @@ export default function Home() {
       dark:bg-slate-900 dark:text-slate-100
       "
     >
-      <div className="max-w-2xl">
+      <div className="max-w-app">
         <h1
           className="
             font-bold 
