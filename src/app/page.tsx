@@ -1,7 +1,8 @@
-import { Mail, UploadCloud, User } from 'lucide-react'
+import { Mail } from 'lucide-react'
 
 import { InputRoot, InputControl, InputPrefix } from '@/components/Input'
 import SettingTabs from '@/components/SettingsTabs'
+import { FileInput } from '@/components/Form/FileInput'
 
 export default function Home() {
   return (
@@ -87,35 +88,11 @@ export default function Home() {
               </span>
             </label>
 
-            <div className="flex items-start gap-5">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-violet-50">
-                <User className="h-8 w-8 text-violet-500" />
-              </div>
-
-              <label
-                htmlFor="photo"
-                className="hover:bg-violet-25 group flex flex-1 cursor-pointer flex-col items-center gap-3 rounded-lg border border-zinc-300 to-zinc-500 px-6 py-4 text-center shadow-sm hover:border-violet-200 hover:text-violet-500"
-              >
-                <div className="border-6 rounded-full border-zinc-100 bg-zinc-200 p-2 group-hover:border-violet-100 group-hover:bg-violet-200">
-                  <UploadCloud className="h-5 w-5 text-zinc-600 group-hover:text-violet-600" />
-                </div>
-
-                <div className="flex flex-col items-center gap-1">
-                  <span className="text-sm">
-                    <span className="font-semibold text-violet-700">
-                      Click upload
-                    </span>{' '}
-                    or drag and drop
-                  </span>
-
-                  <span className="text-xs">
-                    SVG, PNG, JPG or GIF (max. 800x400px).
-                  </span>
-                </div>
-              </label>
-
-              <input type="file" id="photo" className="sr-only" />
-            </div>
+            <FileInput.Root className="flex items-start gap-5">
+              <FileInput.ImagePreview />
+              <FileInput.Trigger />
+              <FileInput.Control />
+            </FileInput.Root>
           </div>
 
           <div className="grid grid-cols-form gap-3 pt-5">
@@ -167,7 +144,11 @@ export default function Home() {
                 Share a few snippets of your work.
               </span>
             </label>
-            <div />
+
+            <FileInput.Root>
+              <FileInput.Trigger />
+              <FileInput.Control />
+            </FileInput.Root>
           </div>
 
           <div className="flex items-center justify-end gap-2 pt-5">
