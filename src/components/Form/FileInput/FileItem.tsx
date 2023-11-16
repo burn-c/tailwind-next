@@ -2,37 +2,70 @@ import { UploadCloud, CheckCircle2, Trash2 } from 'lucide-react'
 
 import { Button } from '@/components/Button'
 import { formatBytes } from '@/utils/formatBytes'
+import { tv } from 'tailwind-variants'
 
 interface FileItemProps {
   name: string
   size: number
+  state: 'progress' | 'error' | 'complete'
 }
 
-export function FileItem({ name, size }: FileItemProps) {
-  const state = 'complete' as 'progress' | 'error' | 'complete'
+const fileItemVariants = tv({
+  slots: {
+    container:
+      'group flex items-start gap-4 rounded-lg border border-zinc-200 p-4',
+    icon: 'rounded-full border-4 border-violet-100 bg-violet-200 p-2 text-violet-600',
+    deleteButton: '',
+  },
+
+  variants: {
+    state: {
+      progress: {
+        container: '',
+      },
+
+      complete: {
+        container: 'border-violet-500',
+      },
+
+      error: {
+        container: 'bg-error-25 border-rose-300',
+        icon: 'border-error-50 bg-error-100 text-error-600',
+        deleteButton: 'text-error-700 hover:text-error-900',
+      },
+    },
+  },
+
+  defaultVariants: {
+    state: 'progress',
+  },
+})
+
+export function FileItem({ name, size, state }: FileItemProps) {
+  const { container, deleteButton, icon } = fileItemVariants({ state })
 
   const hasError = state === 'error'
   const isComplete = state === 'complete'
 
   // TODO: Refactor this
   return (
-    <div className="group flex items-start gap-4 rounded-lg border border-zinc-200 p-4">
-      <div className="rounded-full border-4 border-violet-100 bg-violet-200 p-2 text-violet-600">
+    <div className={container()}>
+      <div className={icon()}>
         <UploadCloud className="h-4 w-4" />
       </div>
 
       {hasError ? (
         <div className="flex flex-1 flex-col items-start gap-1">
           <div className="flex flex-col">
-            <span className="text-error-700 text-sm font-medium">
+            <span className="text-sm font-medium text-error-700">
               Upload failed, please try again.
             </span>
-            <span className="text-error-600 text-sm">{name}</span>
+            <span className="text-sm text-error-600">{name}</span>
           </div>
 
           <button
             type="button"
-            className="text-error-700 hover:text-error-900 text-sm font-semibold"
+            className="text-sm font-semibold text-error-700 hover:text-error-900"
           >
             Try again
           </button>
@@ -63,8 +96,8 @@ export function FileItem({ name, size }: FileItemProps) {
       {isComplete ? (
         <CheckCircle2 className="h-5 w-5 fill-violet-600 text-white" />
       ) : (
-        <Button type="button" variant="ghost">
-          <Trash2 className="h-5 w-5 text-zinc-500" />
+        <Button type="button" variant="ghost" className={deleteButton()}>
+          <Trash2 className="h-5 w-5" />
         </Button>
       )}
     </div>
